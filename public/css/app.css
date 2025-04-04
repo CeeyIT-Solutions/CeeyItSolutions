@@ -1,0 +1,82 @@
+@font-face {
+    font-family: 'AtypDisplay';
+    src: url('../assets/font/atyp-font-family/AtypDisplay-Regular.eot') format('opentype'),
+        url('../assets/font/atyp-font-family/AtypDisplay-Regular.ttf') format('truetype'),
+        url('../assets/font/atyp-font-family/AtypDisplay-Regular.woff') format('woff'),
+        url('../assets/font/atyp-font-family/AtypDisplay-Regular.woff2') format('woff2');
+    font-style: normal;
+    font-weight: normal;
+}
+
+@font-face {
+    font-family: 'AtypDisplay-Regular';
+    src: url('../assets/font/atyp-font-family/AtypDisplay-Regular.eot') format('opentype'),
+        url('../assets/font/atyp-font-family/AtypDisplay-Regular.ttf') format('truetype'),
+        url('../assets/font/atyp-font-family/AtypDisplay-Regular.woff') format('woff'),
+        url('../assets/font/atyp-font-family/AtypDisplay-Regular.woff2') format('woff2');
+    font-style: normal;
+    font-weight: normal;
+}
+
+@font-face {
+    font-family: 'AtypDisplay-Light';
+    src: url('../assets/font/atyp-font-family/AtypDisplay-Light.eot') format('opentype'),
+        url('../assets/font/atyp-font-family/AtypDisplay-Light.ttf') format('truetype'),
+        url('../assets/font/atyp-font-family/AtypDisplay-Light.woff') format('woff'),
+        url('../assets/font/atyp-font-family/AtypDisplay-Light.woff2') format('woff2');
+    font-style: normal;
+    font-weight: normal;
+}
+
+@font-face {
+    font-family: 'AtypDisplay-Medium';
+    src: url('../assets/font/atyp-font-family/AtypDisplay-Medium.eot') format('opentype'),
+        url('../assets/font/atyp-font-family/AtypDisplay-Medium.ttf') format('truetype'),
+        url('../assets/font/atyp-font-family/AtypDisplay-Medium.eot') format('woff'),
+        url('../assets/font/atyp-font-family/AtypDisplay-Medium.woff2') format('woff2');
+    font-style: normal;
+    font-weight: normal;
+}
+
+@font-face {
+    font-family: 'AtypDisplay-Bold';
+    src: url('../assets/font/atyp-font-family/AtypDisplay-Bold.eot') format('opentype'),
+        url('../assets/font/atyp-font-family/AtypDisplay-Bold.ttf') format('truetype'),
+        url('../assets/font/atyp-font-family/AtypDisplay-Bold.woff') format('woff'),
+        url('../assets/font/atyp-font-family/AtypDisplay-Bold.woff2') format('woff2');
+    font-style: normal;
+    font-weight: normal;
+}
+
+input {
+    box-shadow: none !important;
+}
+
+
+.btn-financial-aid {
+    font-family: 'AtypDisplay', sans-serif;
+    font-size: 22px;
+    font-weight: 400;
+    line-height: 11.38px;
+    text-align: left;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+    background-color: transparent;
+    border: 1px solid #15BAB1;
+    color: #15BAB1;
+    margin-right: 15px;
+    font-family: 'AtypDisplay', sans-serif;
+    font-weight: 400;
+    line-height: 11.38px;
+    text-align: center;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+    width: 180px;
+    height: 50px;
+    border-radius: 50px;
+}
+
+.btn-financial-aid:hover {
+    border: 1px solid #15BAB1;
+    color: #15BAB1;
+}
