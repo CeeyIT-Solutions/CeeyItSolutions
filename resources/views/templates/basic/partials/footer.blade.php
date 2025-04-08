@@ -1,37 +1,37 @@
 @php
-$footer = optional(getContent('footer.content',true))->data_values;
-$social = getContent('social_icon.element',false,'',1);
-$policies = getContent('policies.element',false,'',1);
+  $footer = optional(getContent('footer.content', true))->data_values;
+  $social = getContent('social_icon.element', false, '', 1);
+  $policies = getContent('policies.element', false, '', 1);
 @endphp
 <style>
-.footer-bg {
+  .footer-bg {
     background-color: #222126;
     color: #ffffff;
-}
+  }
 
-.footer-links {
+  .footer-links {
     margin: 0;
     padding: 0;
-}
+  }
 
-.footer-links {
+  .footer-links {
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 19.18px;
     width: 46.36px
-}
+  }
 
-.footer-links li {
+  .footer-links li {
     padding: 12px;
     border: 0.61px solid #FFFFFF80;
     border-radius: 6.1px;
     list-style: none;
-}
+  }
 
-.footer-links li a {}
+  .footer-links li a {}
 
-.privacy-policy {
+  .privacy-policy {
     font-family: 'AtypDisplay', sans-serif;
     font-weight: 400;
     font-size: 1rem;
@@ -40,9 +40,10 @@ $policies = getContent('policies.element',false,'',1);
     color: #ffffff;
     text-decoration: none;
     /* padding-right: 60px; */
-}
+  }
 </style>
-{{-- style="background-image: url('{{getImage('assets/images/frontend/footer/'.@$footer->background_image,'1920x1280')}}');"
+{{-- style="background-image:
+url('{{getImage('assets/images/frontend/footer/'.@$footer->background_image,'1920x1280')}}');"
 --}}
 <!-- <footer class="footer bg_img">
   <div class="footer__top">
@@ -109,56 +110,60 @@ $policies = getContent('policies.element',false,'',1);
 
 <!-- Footer -->
 <footer>
-    <div class="container-fluid footer-bg  text-white py-5">
-        <div class="container mx-auto">
-            <div class="row justify-content-center">
-                <div class="col-auto mb-4">
-                    <img src="{{asset('assets/images/ceeyit_footer_logo.svg')}}" alt="Footer logo Image">
-                </div>
-            </div>
-
-            <div class="row justify-content-center mt-4">
-                <div class="col-auto">
-                    <ul class="footer-links">
-                        <li>
-                            <a href="https://www.linkedin.com" target="_blank" class="text-white"><img
-                                    src="/assets/images/email_vector.svg" alt=""></a>
-                        </li>
-                        <li>
-                            <!-- <a href="https://facebook.com" target="_blank" class="text-white me-3"><img src="/assets/images/facebook_icon.png" alt=""></a> -->
-                            <a href="https://www.linkedin.com" target="_blank" class="text-white"><img
-                                    src="/assets/images/email_vector.svg" alt=""></a>
-                        </li>
-                        <li>
-                            <a href="https://x.com" target="_blank" class="text-white"><img
-                                    src="/assets/images/x_vector.svg" alt=""></a>
-                        </li>
-                        <li>
-                            <a href="https://www.instagram.com" target="_blank" class="text-white"><img
-                                    src="/assets/images/instagram_vector.svg" alt=""></a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="mt-5 text-center">
-                <div class="">
-                    <p class="mb-3 d-flex justify-content-evenly" style="text-wrap: nowrap;">
-                        @foreach ($policies as $links)
-                        <a class="privacy-policy"
-                            href="{{route('links',[slug(@$links->data_values->title),$links->id])}}">{{__(@$links->data_values->title)}}</a>
-                        @endforeach
-                    </p>
-                </div>
-            </div>
-            <div class="mt-4 text-center">
-                <div class="">
-                    <p class="mb-3 d-flex justify-content-evenly" style="text-wrap: nowrap;">
-                        <a class="privacy-policy">{{date('Y')}} © {{$general->sitename}}</a>
-                        <a class="privacy-policy"> @lang('All Right Reserved')</a>
-                    </p>
-                </div>
-            </div>
+  <div class="container-fluid footer-bg  text-white py-5">
+    <div class="container mx-auto">
+      <div class="row justify-content-center">
+        <div class="col-auto mb-4">
+          <img src="{{asset('assets/images/ceeyit_footer_logo.svg')}}" alt="Footer logo Image">
         </div>
+      </div>
+
+      <div class="row justify-content-center mt-4">
+        <div class="col-auto">
+          <ul class="footer-links">
+            <li>
+              <a href="https://www.linkedin.com/company/ceeyit-solutions/?viewAsMember=true" target="_blank"
+                class="text-white">
+                <i class="fa-brands fa-linkedin">
+                </i></a>
+            </li>
+            <li>
+              <a href="https://x.com/ceeyitsolutions" target="_blank" class="text-white">
+                <i class="fa-brands fa-twitter">
+                </i></a>
+            </li>
+            <li>
+              <a href="https://www.instagram.com/ceeyit_solutions/" target="_blank" class="text-white">
+                <i class="fa-brands fa-instagram">
+                </i> </a>
+            </li>
+            <li>
+              <a href="mailto:ceeyitsolutions@gmail.com" target="_blank" class="text-white">
+                <i class="fa-solid fa-envelope">
+                </i></a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="mt-5 text-center">
+        <div class="">
+          <p class="mb-3 d-flex justify-content-evenly" style="text-wrap: nowrap;">
+            @foreach ($policies as $links)
+        <a class="privacy-policy"
+          href="{{route('links', [slug(@$links->data_values->title), $links->id])}}">{{__(@$links->data_values->title)}}</a>
+      @endforeach
+          </p>
+        </div>
+      </div>
+      <div class="mt-4 text-center">
+        <div class="">
+          <p class="mb-3 d-flex justify-content-evenly" style="text-wrap: nowrap;">
+            <a class="privacy-policy">{{date('Y')}} © {{$general->sitename}}</a>
+            <a class="privacy-policy"> @lang('All Right Reserved')</a>
+          </p>
+        </div>
+      </div>
     </div>
+  </div>
 </footer>

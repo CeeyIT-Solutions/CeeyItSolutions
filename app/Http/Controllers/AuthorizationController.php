@@ -37,42 +37,40 @@ class AuthorizationController extends Controller
 
             if (!$user->status) {
                 Auth::logout();
-            }
-            // elseif (!$user->ev) {
-            //     if (!$this->checkValidCode($user, $user->ver_code)) {
-            //         $user->ver_code = verificationCode(6);
-            //         $user->ver_code_send_at = Carbon::now();
-            //         $user->save();
-            //         Mail::to($user->email)->send(new VerifyEmail($user->ver_code));
-            //     }
-            //     $pageTitle = 'Verify your account';
+            } elseif (!$user->ev) {
+                if (!$this->checkValidCode($user, $user->ver_code)) {
+                    $user->ver_code = verificationCode(6);
+                    $user->ver_code_send_at = Carbon::now();
+                    $user->save();
+                    Mail::to($user->email)->send(new VerifyEmail($user->ver_code));
+                }
+                $pageTitle = 'Verify your account';
 
-            //     return view($this->activeTemplate . 'user.auth.authorization.email', compact('user', 'pageTitle'));
-            // } elseif (!$user->sv) {
+                return view($this->activeTemplate . 'user.auth.authorization.email', compact('user', 'pageTitle'));
+            } elseif (!$user->sv) {
 
-            //     if (!$this->checkValidCode($user, $user->ver_code)) {
-            //         $user->ver_code = verificationCode(6);
-            //         $user->ver_code_send_at = Carbon::now();
-            //         $user->save();
-            //         sendSms($user, 'SVER_CODE', [
-            //             'code' => $user->ver_code
-            //         ]);
-            //     }
-            //     $pageTitle = 'SMS verification form';
-            //     return view($this->activeTemplate . 'user.auth.authorization.sms', compact('user', 'pageTitle'));
-            // } elseif (!$user->tv) {
-            //     $pageTitle = 'Google Authenticator';
-            //     return view($this->activeTemplate . 'user.auth.authorization.2fa', compact('user', 'pageTitle'));
-            // } 
-            else {
+                if (!$this->checkValidCode($user, $user->ver_code)) {
+                    $user->ver_code = verificationCode(6);
+                    $user->ver_code_send_at = Carbon::now();
+                    $user->save();
+                    sendSms($user, 'SVER_CODE', [
+                        'code' => $user->ver_code
+                    ]);
+                }
+                $pageTitle = 'SMS verification form';
+                return view($this->activeTemplate . 'user.auth.authorization.sms', compact('user', 'pageTitle'));
+            } elseif (!$user->tv) {
+                $pageTitle = 'Google Authenticator';
+                return view($this->activeTemplate . 'user.auth.authorization.2fa', compact('user', 'pageTitle'));
+            } else {
 
-                // overriding code
-                $user = Auth::user();
-                $user->ev = 1;
-                $user->ver_code = null;
-                $user->ver_code_send_at = null;
-                $user->save();
-                // overriding code end
+                // // overriding code
+                // $user = Auth::user();
+                // $user->ev = 1;
+                // $user->ver_code = null;
+                // $user->ver_code_send_at = null;
+                // $user->save();
+                // // overriding code end
 
                 return redirect()->route('user.home');
             }
