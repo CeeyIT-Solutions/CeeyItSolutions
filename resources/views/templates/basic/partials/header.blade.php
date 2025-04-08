@@ -32,6 +32,7 @@
 </style>
 
 <!-- Navigation -->
+
 <nav class="navbar navbar-expand-lg">
   <div class="container">
     <a href="{{redirect(route('home'))}}"> <img src="{{asset('assets/images/ceeyit_logo.svg')}}" alt="Logo Image"

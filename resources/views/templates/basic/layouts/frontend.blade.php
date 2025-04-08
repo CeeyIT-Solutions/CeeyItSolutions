@@ -15,8 +15,8 @@
   <!-- <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <!-- slick slider css -->
-  <link rel="stylesheet" href="{{asset($activeTemplateTrue.'css/lib/slick.css')}}">
-  <link rel="stylesheet" href="{{asset($activeTemplateTrue.'css/lightcase.css')}}">
+  <link rel="stylesheet" href="{{asset($activeTemplateTrue . 'css/lib/slick.css')}}">
+  <link rel="stylesheet" href="{{asset($activeTemplateTrue . 'css/lightcase.css')}}">
   <link rel="stylesheet" href="{{asset('css/app.css')}}">
 
   <style>
@@ -278,7 +278,43 @@
 </head>
 
 <body>
+  <style>
+    .marquee-wrapper {
+      background: linear-gradient(to right, #f8f9fa, #f1f3f5);
+      /* Light grey blend for white bg */
+      overflow: hidden;
+      position: relative;
+      border: 1px solid #dee2e6;
+      padding: 10px 0;
+    }
 
+    .marquee-content {
+      display: inline-block;
+      white-space: nowrap;
+      animation: scroll-left 15s linear infinite;
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: #0d6efd;
+      /* Bootstrap primary color */
+    }
+
+    @keyframes scroll-left {
+      from {
+        transform: translateX(100%);
+      }
+
+      to {
+        transform: translateX(-100%);
+      }
+    }
+  </style>
+  <!-- <div class="container my-4"> -->
+  <div class="marquee-wrapper rounded shadow-sm">
+    <div class="marquee-content">
+      🚀 Big Announcement: Registration for new classes begins 15th May 2024!
+      &nbsp;&nbsp;&nbsp; 💡 Sign up now so you can receive an email reminder!
+    </div>
+  </div>
   @stack('fbComment')
   <div class="preloader">
     <div class="preloader-container">
@@ -294,19 +330,19 @@
   </div>
   <!-- scroll-to-top end -->
 
-  @include($activeTemplate.'partials.header')
+  @include($activeTemplate . 'partials.header')
   @if(Route::currentRouteName() == 'consultation' || Route::currentRouteName() == 'home')
   @else
-  @include($activeTemplate.'partials.breadcrumb')
+    @include($activeTemplate . 'partials.breadcrumb')
   @endif
 
   <div class="main-wrapper">
     @yield('content')
   </div>
   <!-- scroll animation -->
-  <script src="{{asset($activeTemplateTrue.'js/lib/wow.min.js')}}"></script>
-  <script src="{{asset($activeTemplateTrue.'js/lib/lightcase.js')}}"></script>
-  @include($activeTemplate.'partials.footer')
+  <script src="{{asset($activeTemplateTrue . 'js/lib/wow.min.js')}}"></script>
+  <script src="{{asset($activeTemplateTrue . 'js/lib/lightcase.js')}}"></script>
+  @include($activeTemplate . 'partials.footer')
 
   @stack('script-lib')
 
@@ -317,9 +353,9 @@
   @include('partials.notify')
 
   <script>
-    (function($) {
+    (function ($) {
       "use strict";
-      $(".langSel").on("change", function() {
+      $(".langSel").on("change", function () {
         window.location.href = "{{route('home')}}/change/" + $(this).val();
       });
     })(jQuery);
