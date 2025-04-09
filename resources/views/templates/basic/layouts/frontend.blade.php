@@ -284,7 +284,7 @@
       /* Light grey blend for white bg */
       overflow: hidden;
       position: relative;
-      border: 1px solid #dee2e6;
+      border: 2px solid #dee2e6;
       padding: 10px 0;
     }
 
@@ -292,8 +292,8 @@
       display: inline-block;
       white-space: nowrap;
       animation: scroll-left 15s linear infinite;
-      font-size: 1.1rem;
-      font-weight: 500;
+      font-size: 1.5rem;
+      font-weight: bolder;
       color: #0d6efd;
       /* Bootstrap primary color */
     }
@@ -311,7 +311,7 @@
   <!-- <div class="container my-4"> -->
   <div class="marquee-wrapper rounded shadow-sm">
     <div class="marquee-content">
-      🚀 Big Announcement: Registration for new classes begins 15th May 2024!
+      🚀 Big Announcement: Registration for new classes begins 15th May 2025!
       &nbsp;&nbsp;&nbsp; 💡 Sign up now so you can receive an email reminder!
     </div>
   </div>
