@@ -7,8 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ $general->sitename($pageTitle ?? '') }}</title>
     <!-- site favicon -->
-    <link rel="shortcut icon" type="image/png" href="{{getImage(imagePath()['logoIcon']['path'] .'/favicon.png')}}">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap">
+    <link rel="shortcut icon" type="image/png" href="{{getImage(imagePath()['logoIcon']['path'] . '/favicon.png')}}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap">
     <!-- bootstrap 4  -->
     <link rel="stylesheet" href="{{ asset('assets/admin/css/vendor/grid.min.css') }}">
     <!-- bootstrap toggle css -->
@@ -78,8 +81,8 @@
     {{-- LOAD NIC EDIT --}}
     <script>
         "use strict";
-        bkLib.onDomLoaded(function() {
-            $(".nicEdit").each(function(index) {
+        bkLib.onDomLoaded(function () {
+            $(".nicEdit").each(function (index) {
                 $(this).attr("id", "nicEditor" + index);
                 new nicEditor({
                     fullPanel: true
@@ -88,8 +91,8 @@
                 });
             });
         });
-        (function($) {
-            $(document).on('mouseover ', '.nicEdit-main,.nicEdit-panelContain', function() {
+        (function ($) {
+            $(document).on('mouseover ', '.nicEdit-main,.nicEdit-panelContain', function () {
                 $('.nicEdit-main').focus();
             });
         })(jQuery);
