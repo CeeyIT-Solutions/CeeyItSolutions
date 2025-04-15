@@ -3,22 +3,24 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title> {{ $general->sitename(__($pageTitle)) }}</title>
-  @include('partials.seo')
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="{{asset('css/app.css')}}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> {{ $general->sitename(__($pageTitle)) }}</title>
+    @include('partials.seo')
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 
-  @stack('style-lib')
+    @stack('style-lib')
 
-  @stack('style')
-  @yield('style')
-  <style>
-    /* h1 {
+    @stack('style')
+    @yield('style')
+    <style>
+        /* h1 {
       width: 334px;
       height: 27px;
       font-family: 'Nunito', sans-serif;
@@ -93,37 +95,37 @@
       border-color: #4ECDC4;
       box-shadow: 0 0 0 0.25rem rgba(78, 205, 196, 0.25);
     } */
-  </style>
-  
+    </style>
+
 </head>
 
 <body>
-  @stack('fbComment')
-  <div class="preloader">
-    <div class="preloader-container">
-      <span class="animated-preloader"></span>
+    @stack('fbComment')
+    <div class="preloader">
+        <div class="preloader-container">
+            <span class="animated-preloader"></span>
+        </div>
     </div>
-  </div>
 
-  @yield('content')
+    @yield('content')
 
-  @stack('script-lib')
+    @stack('script-lib')
 
-  @stack('script')
+    @stack('script')
 
-  @include('partials.plugins')
+    @include('partials.plugins')
 
-  @include('partials.notify')
+    @include('partials.notify')
 
-  <script>
-    (function($) {
-      "use strict";
-      $(".langSel").on("change", function() {
-        window.location.href = "{{route('home')}}/change/" + $(this).val();
-      });
-    })(jQuery);
-  </script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        (function($) {
+            "use strict";
+            $(".langSel").on("change", function() {
+                window.location.href = "{{ route('home') }}/change/" + $(this).val();
+            });
+        })(jQuery);
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

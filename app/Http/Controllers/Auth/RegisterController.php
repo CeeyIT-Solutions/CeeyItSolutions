@@ -81,20 +81,39 @@ class RegisterController extends Controller
         $countryCodes = implode(',', array_keys($countryData));
         $mobileCodes = implode(',', array_column($countryData, 'dial_code'));
         $countries = implode(',', array_column($countryData, 'country'));
-        $validate = Validator::make($data, [
+
+        // $validate = Validator::make($data, [
+        //     'firstname' => 'sometimes|required|string|max:50',
+        //     'lastname' => 'sometimes|required|string|max:50',
+        //     'email' => 'required|string|email|max:90|unique:users',
+        //     'mobile' => 'required|string|max:50|unique:users',
+        //     'password' => ['required', 'confirmed', $password_validation],
+        //     'username' => 'required|alpha_num|unique:users|min:6',
+        //     // 'captcha' => 'sometimes|required',
+        //     // 'mobile_code' => 'required|in:' . $mobileCodes,
+        //     // 'country_code' => 'required|in:' . $countryCodes,
+        //     // 'country' => 'required|in:' . $countries,
+        //     'agree' => $agree,
+        //     // 'g-recaptcha-response' => 'required|recaptcha'
+        // ]);
+        // return $validate;
+
+        $rules = [
             'firstname' => 'sometimes|required|string|max:50',
             'lastname' => 'sometimes|required|string|max:50',
             'email' => 'required|string|email|max:90|unique:users',
             'mobile' => 'required|string|max:50|unique:users',
             'password' => ['required', 'confirmed', $password_validation],
             'username' => 'required|alpha_num|unique:users|min:6',
-            // 'captcha' => 'sometimes|required',
-            // 'mobile_code' => 'required|in:' . $mobileCodes,
-            // 'country_code' => 'required|in:' . $countryCodes,
-            // 'country' => 'required|in:' . $countries,
-            'agree' => $agree
-        ]);
-        return $validate;
+            'agree' => $agree,
+        ];
+
+        // ✅ Dynamically add reCAPTCHA if enabled
+        if (config('services.recaptcha.enabled')) {
+            $rules['g-recaptcha-response'] = ['required', 'recaptcha'];
+        }
+
+        return Validator::make($data, $rules);
     }
 
     public function register(Request $request)
