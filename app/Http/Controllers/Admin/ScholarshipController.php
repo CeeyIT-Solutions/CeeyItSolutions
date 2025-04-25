@@ -24,31 +24,94 @@ class ScholarshipController extends Controller
     public function index(Request $request)
     {
         $keyword = $request->search;
+        $dateSort = $request->get('date_sort', 'desc');
+        // default to “desc” (Latest)
 
         if ($request->has('export')) {
-            return Excel::download(new ScholarshipApplicationsExport($keyword), 'scholarship_applications.xlsx');
+            return Excel::download(
+                new ScholarshipApplicationsExport($keyword, $dateSort),
+                'scholarship_applications.csv'
+            );
         }
 
-        $pageTitle = "Scholarship Applications";
-
+        $pageTitle = "Scholarship Applications Older";
         $emptyMessage = "No Data Found";
 
         $applications = ScholarshipApplication::with('course')
-            ->when($keyword, function ($query) use ($keyword) {
-                $query->where('full_name', 'LIKE', "%$keyword%")
-                    ->orWhere('email', 'LIKE', "%$keyword%")
-                    ->orWhere('application_id', 'LIKE', "%$keyword%")
-                    ->orWhere('phone', 'LIKE', "%$keyword%");
+            ->where('apply_year', '<', 2025)
+            ->when($keyword, function ($q) use ($keyword) {
+                $q->where(function ($sub) use ($keyword) {
+                    $sub->where('full_name', 'LIKE', "%{$keyword}%")
+                        ->orWhere('email', 'LIKE', "%{$keyword}%")
+                        ->orWhere('application_id', 'LIKE', "%{$keyword}%")
+                        ->orWhere('phone', 'LIKE', "%{$keyword}%");
+                });
             })
-            ->latest()
-            ->paginate(10);
+            ->orderBy('created_at', $dateSort)  // ← use the select value here
+            ->paginate(10)
+            ->appends([
+                'search' => $keyword,
+                'date_sort' => $dateSort,
+            ]);
 
-        $totalCount = ScholarshipApplication::count();
+        $totalCount = ScholarshipApplication::where('apply_year', '<', 2025)
+            ->count();
 
         $courses = Course::active()
             ->orderBy('title', 'ASC')
             ->get();
-        return view('admin.scholarships.list', compact('pageTitle', 'emptyMessage', 'applications', 'keyword', 'totalCount', 'courses'));
+
+        return view('admin.scholarships.list', compact(
+            'pageTitle',
+            'emptyMessage',
+            'applications',
+            'keyword',
+            'totalCount',
+            'courses',
+            'dateSort'        // pass into the view for selected= logic
+        ));
+    }
+
+
+    public function indexNew(Request $request)
+    {
+
+        $keyword = $request->search;
+        $dateSort = $request->get('date_sort', 'desc');
+
+        if ($request->has('export')) {
+            return Excel::download(
+                new ScholarshipApplicationsExport($keyword, $dateSort),
+                'scholarship_applications.csv'
+            );
+        }
+        $pageTitle = "Scholarship Applications 2025";
+
+        $emptyMessage = "No Data Found";
+
+        $applications = ScholarshipApplication::with('course')
+            ->where('apply_year', '>=', 2025)
+            ->when($keyword, function ($q) use ($keyword) {
+                $q->where(function ($sub) use ($keyword) {
+                    $sub->where('full_name', 'LIKE', "%{$keyword}%")
+                        ->orWhere('email', 'LIKE', "%{$keyword}%")
+                        ->orWhere('application_id', 'LIKE', "%{$keyword}%")
+                        ->orWhere('phone', 'LIKE', "%{$keyword}%");
+                });
+            })
+            ->orderBy('created_at', $dateSort)  // ← use the select value here
+            ->paginate(10)
+            ->appends([
+                'search' => $keyword,
+                'date_sort' => $dateSort,
+            ]);
+
+        $totalCount = ScholarshipApplication::where('apply_year', '>=', 2025)->count();
+
+        $courses = Course::active()
+            ->orderBy('title', 'ASC')
+            ->get();
+        return view('admin.scholarships.list_new', compact('pageTitle', 'emptyMessage', 'applications', 'keyword', 'totalCount', 'courses', 'dateSort'));
     }
 
     public function denyApplication(Request $request)
@@ -128,7 +191,7 @@ class ScholarshipController extends Controller
                 $firstname = $nameParts[0]; // First part is the firstname
                 $lastname = isset($nameParts[1]) ? $nameParts[1] : ''; // Second part is the lastname
 
-                $user =   User::create([
+                $user = User::create([
                     'firstname' => $firstname,
                     'lastname' => $lastname,
                     'username' => strtolower($firstname . '.' . $lastname),

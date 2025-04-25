@@ -22,6 +22,7 @@ class ScholarshipApplication extends Model
         'tech_experience_details',
         'goals',
         'terms',
+        'apply_year',
         'approval_status',
         'slack_invite_status',
         'is_slack_invite_sent',

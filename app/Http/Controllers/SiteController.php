@@ -107,6 +107,8 @@ class SiteController extends Controller
     {
         $pageTitle = 'Scholarships';
         $view = $this->activeTemplate . "scholarships";
+
+        dd($view);
         return view($this->activeTemplate . 'scholarships', compact('pageTitle'));
     }
     public function Laptops(Request $request)
@@ -296,6 +298,7 @@ class SiteController extends Controller
             $application->tech_experience_details = $validatedData['tech_experience_details'];
             $application->goals = $validatedData['goals'];
             $application->application_id = $applicationId;
+            $application->apply_year = intval(date('Y'));
             $application->terms = true;
             $application->approval_status = 0;
             $application->save();
@@ -312,7 +315,10 @@ class SiteController extends Controller
                 Mail::to($scholarshipNotificationEmail)->send(new NewScholarshipApplicationNotification($applicationData));
             }
             session()->flash('success', 'Your scholarship application has been submitted successfully. We will get back to you soon.');
-            return back();
+            // return back();
+            $pageTitle = 'Thank You for Your Scholarship Application.';
+            $sections = '["thankyouscholarship"]';
+            return view($this->activeTemplate . 'pages', compact('pageTitle', 'sections'));
         } catch (\Illuminate\Validation\ValidationException $e) {
             return back()->withErrors($e->errors())->withInput();
         }
@@ -346,6 +352,7 @@ class SiteController extends Controller
             $application->phone = $validatedData['phone'];
             $application->course_id = $validatedData['course_id'];
             $application->approval_status = 0;
+            $application->apply_year = intval(date('Y'));
             $application->reason = $validatedData['reason'];
             $application->save();
             $pageTitle = 'Thank You for Your Laptop Application.';
