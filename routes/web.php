@@ -183,8 +183,11 @@ Route::
 
                 // Manage Scholarships Routes
                 Route::get('scholarship/list', [AdminScholarshipController::class, 'index'])->name('scholarships.list');
+                Route::get('scholarship/list/2025', [AdminScholarshipController::class, 'indexNew'])->name('scholarships.list.new');
 
                 Route::get('laptops/list', [LaptopController::class, 'index'])->name('laptops.list');
+                Route::get('laptops/list/2025', [LaptopController::class, 'indexNew'])->name('laptops.list.new');
+
                 Route::post('approve-laptop-application', [LaptopController::class, 'approveApplication'])->name("approve.laptop.request");
 
                 Route::post('deny-laptop-application', [LaptopController::class, 'denyApplication'])->name("deny.laptop.request");
