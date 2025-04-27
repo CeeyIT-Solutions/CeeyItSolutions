@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\NewScholarshipApplicationNotification;
+use App\Mail\ScholarshipApplicationConfirmation;
 use Carbon\Carbon;
 use App\Models\Page;
 use App\Models\Level;
@@ -285,6 +286,7 @@ class SiteController extends Controller
             ], [
                 'email.unique' => 'The email address has already been used to apply for a scholarship.',
             ]);
+
             $applicationId = "CEEYIT" . rand(11111111, 999999999);
             $application = new ScholarshipApplication();
             $application->full_name = $validatedData['full_name'];
@@ -311,9 +313,14 @@ class SiteController extends Controller
 
             $scholarshipNotificationEmail = getenv("SCHOLARSHIP_NOTIFICATION_EMAIL");
 
+            // Send email to admin
             if (!empty($scholarshipNotificationEmail)) {
                 Mail::to($scholarshipNotificationEmail)->send(new NewScholarshipApplicationNotification($applicationData));
             }
+
+            // Send email to user
+            Mail::to($request->email)->send(new ScholarshipApplicationConfirmation($applicationData));
+
             session()->flash('success', 'Your scholarship application has been submitted successfully. We will get back to you soon.');
             // return back();
             $pageTitle = 'Thank You for Your Scholarship Application.';
@@ -345,6 +352,8 @@ class SiteController extends Controller
             if (!$scholarshipApplication) {
                 return back()->withErrors('You are not eligible to apply for a laptop. Please apply for a scholarship first.')->withInput();
             }
+
+
 
             $application = new LaptopApplication();
             $application->full_name = $validatedData['full_name'];

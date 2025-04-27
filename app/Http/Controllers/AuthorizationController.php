@@ -44,6 +44,7 @@ class AuthorizationController extends Controller
                     $user->save();
                     Mail::to($user->email)->send(new VerifyEmail($user->ver_code));
                 }
+
                 $pageTitle = 'Verify your account';
 
                 return view($this->activeTemplate . 'user.auth.authorization.email', compact('user', 'pageTitle'));

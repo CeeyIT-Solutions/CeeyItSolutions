@@ -17,7 +17,7 @@
                                     <th>@lang('Date')</th>
                                     <th>@lang('Status')</th>
                                     <th>@lang('Slack Invite')</th>
-                                    {{-- <th>@lang('Send Channel Invite')</th> --}}
+                                    <th>@lang('Send Channel Invite')</th>
                                     <th>@lang('Action')</th>
 
                                 </tr>
@@ -68,17 +68,17 @@
                                                 <span class="badge bg-secondary">Unknown Status</span>
                                             @endif
                                         </td>
-                                        {{-- <td>
-                                                                    @if ($data['channel_invite_email'] == 0)
-                                                                    <span class="badge bg-warning text-white p-2">Pending</span>
-                                                                    @elseif ($data['channel_invite_email'] == 1)
-                                                                    <span class="badge bg-success text-white p-2">Sent</span>
-                                                                    @elseif ($data['channel_invite_email'] == 2)
-                                                                    <span class="badge bg-danger text-white p-2">Failed</span>
-                                                                    @else
-                                                                    <span class="badge bg-secondary">Unknown Status</span>
-                                                                    @endif
-                                                                </td> --}}
+                                        <td>
+                                            @if ($data['channel_invite_email'] == 0)
+                                                <span class="badge bg-warning text-white p-2">Pending</span>
+                                            @elseif ($data['channel_invite_email'] == 1)
+                                                <span class="badge bg-success text-white p-2">Sent</span>
+                                            @elseif ($data['channel_invite_email'] == 2)
+                                                <span class="badge bg-danger text-white p-2">Failed</span>
+                                            @else
+                                                <span class="badge bg-secondary">Unknown Status</span>
+                                            @endif
+                                        </td>
 
                                         @php
                                             $occupation =
