@@ -17,7 +17,7 @@
                                     <th>@lang('Date')</th>
                                     <th>@lang('Status')</th>
                                     <th>@lang('Slack Invite')</th>
-                                    {{-- <th>@lang('Send Channel Invite')</th> --}}
+                                    <th>@lang('Send Channel Invite')</th>
                                     <th>@lang('Action')</th>
 
                                 </tr>
@@ -34,17 +34,17 @@
                                         <td>{{ $data['course']['title'] ?? '-' }}</td>
                                         <td>{{ showDateTime($data['created_at']) }} </td>
 
-                                        {{-- <td>
-                                                                @if ($data['is_email_sent'] == 0)
-                                                                <span class="badge bg-warning text-white p-2"><b>Pending</b></span>
-                                                                @elseif ($data['is_email_sent'] == 1)
-                                                                <span class="badge bg-success p-2"><strong>Sent</strong></span>
-                                                                @elseif ($data['is_email_sent'] == 2)
-                                                                <span class="badge bg-danger p-2"><strong>Failed</strong></span>
-                                                                @else
-                                                                <span class="badge bg-secondary p-2">Unknown Status</span>
-                                                                @endif
-                                                            </td> --}}
+                                        <td>
+                                            @if ($data['is_email_sent'] == 0)
+                                                <span class="badge bg-warning text-white p-2"><b>Pending</b></span>
+                                            @elseif ($data['is_email_sent'] == 1)
+                                                <span class="badge bg-success p-2"><strong>Sent</strong></span>
+                                            @elseif ($data['is_email_sent'] == 2)
+                                                <span class="badge bg-danger p-2"><strong>Failed</strong></span>
+                                            @else
+                                                <span class="badge bg-secondary p-2">Unknown Status</span>
+                                            @endif
+                                        </td>
 
                                         <td>
                                             @if ($data['approval_status'] == 0)
