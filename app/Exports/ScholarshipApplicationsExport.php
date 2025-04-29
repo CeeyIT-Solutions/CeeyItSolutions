@@ -13,11 +13,17 @@ class ScholarshipApplicationsExport implements FromQuery, WithHeadings, WithMapp
     use Exportable;
 
     protected $keyword;
+    protected $dateSort;
+    protected $applyYear;
+    protected $operator;
 
     // Constructor to handle filtering
-    public function __construct($keyword = null)
+    public function __construct($keyword = null, $dateSort = "desc", $applyYear = null, $operator = null)
     {
         $this->keyword = $keyword;
+        $this->dateSort = $dateSort;
+        $this->applyYear = $applyYear;
+        $this->operator = $operator;
     }
 
     // Query the data
@@ -25,6 +31,10 @@ class ScholarshipApplicationsExport implements FromQuery, WithHeadings, WithMapp
     {
         return ScholarshipApplication::query()
             ->with('course')
+            ->orderBy('created_at', $this->dateSort)
+            ->when($this->applyYear, function ($query) {
+                $query->where('apply_year', $this->operator, $this->applyYear);
+            })
             ->when($this->keyword, function ($query) {
                 $query->where('full_name', 'LIKE', "%{$this->keyword}%")
                     ->orWhere('email', 'LIKE', "%{$this->keyword}%")

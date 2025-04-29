@@ -196,6 +196,9 @@ Route::
                 Route::post('send-scholarship-email', [ManageUsersController::class, 'sendScholarshipEmail'])->name('users.email.scholarship');
 
                 Route::get("send-slack-invite", [AdminScholarshipController::class, "sendSlackInvite"])->name("send.slack.invite");
+                Route::get("send/slack/invite/{id}", [AdminScholarshipController::class, "sendSlackInviteById"]);
+                Route::post('approve-all', [AdminScholarshipController::class, 'approveAllPending'])
+                    ->name('approve.all.applications');
                 Route::post('/deny-application', [AdminScholarshipController::class, 'denyApplication']);
                 Route::post('/approve-application', [AdminScholarshipController::class, 'approveApplication']);
 

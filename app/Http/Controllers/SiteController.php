@@ -24,6 +24,7 @@ use App\Models\Donation;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
+use App\Models\User;
 
 class SiteController extends Controller
 {
@@ -271,6 +272,15 @@ class SiteController extends Controller
     public function ApplyForScholarship(Request $request)
     {
         try {
+
+            // check if email exists in users table
+            $email = strtolower(trim($request->email));
+            $user = User::where('email', $email)->first();
+            if (!$user) {
+                return back()->withErrors('Invalid email address. You need to register on our website first, in order to apply for a scholarship.')->withInput();
+            }
+
+
             $validatedData = $request->validate([
                 'full_name' => 'required|string|max:255',
                 'email' => 'required|email|max:255|unique:scholarship_applications,email',
