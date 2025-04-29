@@ -30,10 +30,12 @@ class LaptopController extends Controller
 
         $keyword = $request->search;
         $dateSort = $request->get('date_sort', 'desc');
+        $year = 2025;
+        $operator = '<';
 
         if ($request->has('export')) {
             return Excel::download(
-                new LaptopApplicationsExport($keyword, $dateSort),
+                new LaptopApplicationsExport($keyword, $dateSort, $year, $operator),
                 'laptop_applications.csv'
             );
         }
@@ -71,11 +73,15 @@ class LaptopController extends Controller
     {
         $keyword = $request->search;
         $dateSort = $request->get('date_sort', 'desc');
+        $year = 2025;
+        $operator = '>=';
+
+
 
 
         if ($request->has('export')) {
             return Excel::download(
-                new LaptopApplicationsExport($keyword),
+                new LaptopApplicationsExport($keyword, $dateSort, $year, $operator),
                 'laptop_applications.csv'
             );
         }

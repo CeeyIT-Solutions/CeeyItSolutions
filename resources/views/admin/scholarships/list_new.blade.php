@@ -17,7 +17,7 @@
                                     <th>@lang('Date')</th>
                                     <th>@lang('Status')</th>
                                     <th>@lang('Slack Invite')</th>
-                                    <th>@lang('Send Channel Invite')</th>
+                                    {{-- <th>@lang('Send Channel Invite')</th> --}}
                                     <th>@lang('Action')</th>
 
                                 </tr>
@@ -57,7 +57,23 @@
                                                 <span class="badge bg-secondary">Unknown Status</span>
                                             @endif
                                         </td>
+
+                                        {{-- sends slack invite  --}}
                                         <td>
+                                            @if ($data['is_slack_invite_sent'] == 0)
+                                                <button class="btn btn-sm btn-primary send-slack-invite-user"
+                                                    data-user-id="{{ $data['id'] }}">
+                                                    Send Slack Invite
+                                                </button>
+                                            @elseif ($data['is_slack_invite_sent'] == 1)
+                                                <span class="badge bg-success text-white p-2">Sent</span>
+                                            @elseif ($data['is_slack_invite_sent'] == 2)
+                                                <span class="badge bg-danger text-white p-2">Failed</span>
+                                            @else
+                                                <span class="badge bg-secondary">Unknown Status</span>
+                                            @endif
+                                        </td>
+                                        {{-- <td>
                                             @if ($data['is_slack_invite_sent'] == 0)
                                                 <span class="badge bg-warning text-white p-2">Pending</span>
                                             @elseif ($data['is_slack_invite_sent'] == 1)
@@ -67,8 +83,8 @@
                                             @else
                                                 <span class="badge bg-secondary">Unknown Status</span>
                                             @endif
-                                        </td>
-                                        <td>
+                                        </td> --}}
+                                        {{-- <td>
                                             @if ($data['channel_invite_email'] == 0)
                                                 <span class="badge bg-warning text-white p-2">Pending</span>
                                             @elseif ($data['channel_invite_email'] == 1)
@@ -78,7 +94,7 @@
                                             @else
                                                 <span class="badge bg-secondary">Unknown Status</span>
                                             @endif
-                                        </td>
+                                        </td> --}}
 
                                         @php
                                             $occupation =
@@ -369,9 +385,6 @@
         <i class="fas fa-envelope"></i>
         @lang('Send Channel Invite')
     </button>
-
-
-
     <button type="button" id="sendSlackInvite" value="1" class="btn btn--info ml-2 mr-2 mb-2">
         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-slack"
             style="width: 20px;color:white" viewBox="0 0 448 512">
@@ -395,6 +408,12 @@
                 </option>
             </select>
         </div>
+        @php
+            $applyYear = 2025; // or use dynamic year from controller or URL
+        @endphp
+        <button id="approve-all-btn" class="btn btn--success ml-2" data-year="{{ $applyYear }}">
+            <i class="fa fa-check"></i> @lang('Approve All {{ $applyYear }}  Pending Applications')
+        </button>
         <button type="submit" name="export" value="1" class="btn btn--success ml-2">
             <i class="fa fa-file-excel"></i> @lang('Export')
         </button>
@@ -480,6 +499,107 @@
                     }
                 });
             });
+
+            // send slack invite to user
+            $(document).on('click', '.send-slack-invite-user', function() {
+                const userId = $(this).data('user-id');
+                const button = $(this);
+
+                button.prop('disabled', true).text('Sending...');
+
+                $.ajax({
+                    url: `/admin/send/slack/invite/${userId}`,
+                    method: 'GET',
+                    success: function(res) {
+                        button.replaceWith(
+                            '<span class="badge bg-success text-white p-2">Sent</span>');
+                    },
+                    error: function(xhr) {
+                        button.prop('disabled', false).text('Send Slack Invite');
+
+                        let message = 'Something went wrong. Please try again.';
+
+                        if (xhr.responseJSON && xhr.responseJSON.message) {
+                            message = xhr.responseJSON.message;
+                        } else if (xhr.status === 0) {
+                            message = 'Network error. Please check your internet connection.';
+                        } else if (xhr.status === 404) {
+                            message = 'User not found or not approved.';
+                        } else if (xhr.status === 500) {
+                            message = 'Internal server error. Please contact support.';
+                        }
+
+                        alert('Failed to send Slack invite: ' + message);
+                    }
+                });
+            });
+
+            // approve all pending applications
+            $('#approve-all-btn').on('click', function() {
+                const button = $(this);
+                const applyYear = button.data('year');
+
+                if (!confirm(`Are you sure you want to approve all pending applications for ${applyYear}?`))
+                    return;
+
+                button.prop('disabled', true).text('Approving...');
+
+                $.ajax({
+                    url: '{{ route('admin.approve.all.applications') }}',
+                    method: 'POST',
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        apply_year: applyYear
+                    },
+                    success: function(res) {
+                        alert(res.message);
+                        location.reload();
+                    },
+                    error: function(xhr) {
+                        let msg = 'Something went wrong.';
+
+                        if (xhr.responseJSON?.message) {
+                            msg = xhr.responseJSON.message;
+                        } else if (xhr.status === 500) {
+                            msg = 'Server error. Please contact support.';
+                        }
+
+                        alert("Failed: " + msg);
+                        button.prop('disabled', false).text(
+                            `Approve All ${applyYear} Pending Applications`);
+                    }
+                });
+            });
+            // $('#approve-all-btn').on('click', function() {
+            //     const button = $(this);
+            //     if (!confirm("Are you sure you want to approve all pending applications?")) return;
+
+            //     button.prop('disabled', true).text('Approving...');
+
+            //     $.ajax({
+            //         url: '{{ route('admin.approve.all.applications') }}',
+            //         method: 'POST',
+            //         data: {
+            //             _token: '{{ csrf_token() }}'
+            //         },
+            //         success: function(res) {
+            //             alert(res.message);
+            //             location.reload(); // Optionally reload to reflect changes
+            //         },
+            //         error: function(xhr) {
+            //             let msg = 'Something went wrong.';
+
+            //             if (xhr.responseJSON?.message) {
+            //                 msg = xhr.responseJSON.message;
+            //             } else if (xhr.status === 500) {
+            //                 msg = 'Server error. Please contact support.';
+            //             }
+
+            //             alert("Failed: " + msg);
+            //             button.prop('disabled', false).text('Approve All Pending Applications');
+            //         }
+            //     });
+            // });
         });
     </script>
 @endpush

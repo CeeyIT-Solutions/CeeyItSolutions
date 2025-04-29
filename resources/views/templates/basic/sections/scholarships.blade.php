@@ -6,14 +6,11 @@
     <div class="d-flex justify-content-center align-items-center" style="height: calc(100vh - 200px);">
         <div class="card shadow-lg p-4"
             style="max-width: 800px; width: 100%; height: 500px; display: flex; justify-content: center; align-items: center;">
-            {{-- <form action="{{ route('scholarship.apply') }}" method="POST" style="width: 100%;">
-                @csrf --}}
             <h1 class="text-center mt-2">Applications Closed</h1>
-            <p class="mt-4 text-center">New Applications will commerce on May 15th 2024!</p>
+            <p class="mt-4 text-center">New Applications will commerce on May 15th 2025!</p>
             <div class="d-flex justify-content-center align-items-center">
                 <a href="/" class="btn btn-register">Back to Homepage</a>
             </div>
-            {{-- </form> --}}
         </div>
     </div>
 </section>
