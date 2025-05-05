@@ -108,6 +108,10 @@ Route::
                 Route::get('users/sms-verified', 'ManageUsersController@smsVerifiedUsers')->name('users.sms.verified');
                 Route::get('users/with-balance', 'ManageUsersController@usersWithBalance')->name('users.with.balance');
 
+                // send verification email to unverified users
+                Route::post('users/unverified/send-email', 'ManageUsersController@sendEmailToUnverified');
+
+
                 Route::get('users/{scope}/search', 'ManageUsersController@search')->name('users.search');
                 Route::get('user/detail/{id}', 'ManageUsersController@detail')->name('users.detail');
                 Route::post('user/update/{id}', 'ManageUsersController@update')->name('users.update');
