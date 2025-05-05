@@ -14,6 +14,9 @@ use App\Models\WithdrawMethod;
 use App\Http\Controllers\Controller;
 use App\Models\ScholarshipApplication;
 use Illuminate\Support\Facades\Auth;
+use App\Mail\UnverifiedUserEmail;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Mail;
 
 
 class ManageUsersController extends Controller
@@ -82,6 +85,35 @@ class ManageUsersController extends Controller
         $emptyMessage = 'No sms verified user found';
         $users = User::where('balance', '!=', 0)->where('is_instructor', '!=', 1)->orderBy('id', 'desc')->paginate(getPaginate());
         return view('admin.users.list', compact('pageTitle', 'emptyMessage', 'users'));
+    }
+
+    public function sendEmailToUnverified()
+    {
+
+        $users = User::where('ev', 0)->get();
+
+        foreach ($users as $user) {
+            // Validate email format and DNS
+            $validator = Validator::make(
+                ['email' => $user->email],
+                ['email' => 'required|email:rfc,dns']
+            );
+
+            if ($validator->fails()) {
+                // Log or skip invalid email
+                logger()->warning("Skipped invalid email: " . $user->email);
+                continue;
+            }
+
+            try {
+                Mail::to($user->email)->send(new UnverifiedUserEmail($user->name, $user->email));
+            } catch (\Exception $e) {
+                logger()->error("Failed to send to {$user->email}: " . $e->getMessage());
+            }
+        }
+
+        return response()->json(['message' => 'Emails sent to unverified users.']);
+
     }
 
 
@@ -190,7 +222,7 @@ class ManageUsersController extends Controller
             $transaction->charge = 0;
             $transaction->trx_type = '+';
             $transaction->details = 'Added Balance Via Admin';
-            $transaction->trx =  $trx;
+            $transaction->trx = $trx;
             $transaction->save();
 
             notify($user, 'BAL_ADD', [
@@ -216,7 +248,7 @@ class ManageUsersController extends Controller
             $transaction->charge = 0;
             $transaction->trx_type = '-';
             $transaction->details = 'Subtract Balance Via Admin';
-            $transaction->trx =  $trx;
+            $transaction->trx = $trx;
             $transaction->save();
 
 
@@ -347,7 +379,7 @@ class ManageUsersController extends Controller
         return view('admin.withdraw.withdrawals', compact('pageTitle', 'user', 'withdrawals', 'emptyMessage', 'userId'));
     }
 
-    public  function withdrawalsViaMethod($method, $type, $userId)
+    public function withdrawalsViaMethod($method, $type, $userId)
     {
         $method = WithdrawMethod::findOrFail($method);
         $user = User::findOrFail($userId);
