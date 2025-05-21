@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Mail\UnverifiedUserEmail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Mail;
+use App\Mail\VerifiedUserAnnouncement;
 
 
 class ManageUsersController extends Controller
@@ -85,6 +86,52 @@ class ManageUsersController extends Controller
         $emptyMessage = 'No sms verified user found';
         $users = User::where('balance', '!=', 0)->where('is_instructor', '!=', 1)->orderBy('id', 'desc')->paginate(getPaginate());
         return view('admin.users.list', compact('pageTitle', 'emptyMessage', 'users'));
+    }
+
+    // public function sendEmailBroadcast()
+    // {
+
+    //     $users = User::all();
+
+    //     foreach ($users as $user) {
+    //         logger()->info($user->email);
+    //     }
+
+    //     dd('ok');
+
+    //     // foreach (User::where('status', 1)->cursor() as $user) {
+    //     //     sendGeneralEmail($user->email, $request->subject, $request->message, $user->username);
+    //     // }
+
+    //     $notify[] = ['success', 'All users will receive an email shortly.'];
+    //     return back()->withNotify($notify);
+    // }
+
+
+    public function sendEmailBroadcast()
+    {
+        $users = User::where('ev', 1)->get();
+
+        foreach ($users as $user) {
+            // Validate email
+            $validator = Validator::make(
+                ['email' => $user->email],
+                ['email' => 'required|email:rfc,dns']
+            );
+
+            if ($validator->fails()) {
+                logger()->warning("Invalid email: " . $user->email);
+                continue;
+            }
+
+            try {
+                Mail::to($user->email)->send(new VerifiedUserAnnouncement($user));
+            } catch (\Exception $e) {
+                logger()->error("Failed to send to {$user->email}: " . $e->getMessage());
+            }
+        }
+
+        return response()->json(['message' => 'Emails sent to verified users.']);
     }
 
     public function sendEmailToUnverified()
@@ -405,6 +452,7 @@ class ManageUsersController extends Controller
         $pageTitle = 'Send Email To All Users';
         return view('admin.users.email_all', compact('pageTitle'));
     }
+
 
     public function sendEmailAll(Request $request)
     {

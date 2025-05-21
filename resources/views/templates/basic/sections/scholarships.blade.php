@@ -2,7 +2,7 @@
     use App\Models\Course;
 @endphp
 
-<section class="pt-100 pb-100 mb-5 mt-5">
+{{-- <section class="pt-100 pb-100 mb-5 mt-5">
     <div class="d-flex justify-content-center align-items-center" style="height: calc(100vh - 200px);">
         <div class="card shadow-lg p-4"
             style="max-width: 800px; width: 100%; height: 500px; display: flex; justify-content: center; align-items: center;">
@@ -13,9 +13,9 @@
             </div>
         </div>
     </div>
-</section>
+</section> --}}
 
-{{-- <section class="pt-100 pb-100 mb-5 mt-5">
+<section class="pt-100 pb-100 mb-5 mt-5">
     <div class="d-flex justify-content-center">
         <div class="card shadow-lg p-4" style="max-width: 800px; width: 100%;">
             <form action="{{ route('scholarship.apply') }}" method="POST">
@@ -65,7 +65,11 @@
                 <div class="mb-3">
                     <label for="course" class="form-label">Which course are you applying for?</label>
                     @php
-                        $categories = Course::active()->orderBy('title', 'ASC')->pluck('title', 'id');
+                        $categories = Course::active()
+                            ->whereDate('created_at', '>', '2025-02-10')
+                            ->orderBy('title', 'ASC')
+                            ->pluck('title', 'id');
+                        // $categories = Course::active()->orderBy('title', 'ASC')->pluck('title', 'id');
                     @endphp
                     <select class="form-select" id="course" name="course_id" required>
                         <option value="" disabled {{ old('course_id') ? '' : 'selected' }}>Select a course
@@ -141,4 +145,4 @@
             }
         });
     });
-</script> --}}
+</script>

@@ -280,6 +280,12 @@ class SiteController extends Controller
                 return back()->withErrors('Invalid email address. You need to register on our website first, in order to apply for a scholarship.')->withInput();
             }
 
+            // check if user has already applied for a scholarship
+            $application = ScholarshipApplication::where('email', $email)->first();
+            if ($application) {
+                return back()->withErrors('You have already applied for a scholarship.')->withInput();
+            }
+
 
             $validatedData = $request->validate([
                 'full_name' => 'required|string|max:255',

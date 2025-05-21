@@ -110,6 +110,8 @@ Route::
 
                 // send verification email to unverified users
                 Route::post('users/unverified/send-email', 'ManageUsersController@sendEmailToUnverified');
+                Route::post('users/email/broadcast', 'ManageUsersController@sendEmailBroadcast');
+
 
 
                 Route::get('users/{scope}/search', 'ManageUsersController@search')->name('users.search');
