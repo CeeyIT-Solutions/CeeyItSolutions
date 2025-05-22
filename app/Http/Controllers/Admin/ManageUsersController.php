@@ -88,25 +88,6 @@ class ManageUsersController extends Controller
         return view('admin.users.list', compact('pageTitle', 'emptyMessage', 'users'));
     }
 
-    // public function sendEmailBroadcast()
-    // {
-
-    //     $users = User::all();
-
-    //     foreach ($users as $user) {
-    //         logger()->info($user->email);
-    //     }
-
-    //     dd('ok');
-
-    //     // foreach (User::where('status', 1)->cursor() as $user) {
-    //     //     sendGeneralEmail($user->email, $request->subject, $request->message, $user->username);
-    //     // }
-
-    //     $notify[] = ['success', 'All users will receive an email shortly.'];
-    //     return back()->withNotify($notify);
-    // }
-
 
     public function sendEmailBroadcast()
     {
@@ -126,10 +107,31 @@ class ManageUsersController extends Controller
 
             try {
                 Mail::to($user->email)->send(new VerifiedUserAnnouncement($user));
+
+                // Delay of 200 milliseconds (0.2 seconds)
+                usleep(200000);
             } catch (\Exception $e) {
                 logger()->error("Failed to send to {$user->email}: " . $e->getMessage());
             }
         }
+        // foreach ($users as $user) {
+        //     // Validate email
+        //     $validator = Validator::make(
+        //         ['email' => $user->email],
+        //         ['email' => 'required|email:rfc,dns']
+        //     );
+
+        //     if ($validator->fails()) {
+        //         logger()->warning("Invalid email: " . $user->email);
+        //         continue;
+        //     }
+
+        //     try {
+        //         Mail::to($user->email)->send(new VerifiedUserAnnouncement($user));
+        //     } catch (\Exception $e) {
+        //         logger()->error("Failed to send to {$user->email}: " . $e->getMessage());
+        //     }
+        // }
 
         return response()->json(['message' => 'Emails sent to verified users.']);
     }
