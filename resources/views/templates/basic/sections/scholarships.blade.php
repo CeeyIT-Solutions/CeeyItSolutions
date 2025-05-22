@@ -2,7 +2,7 @@
     use App\Models\Course;
 @endphp
 
-{{-- <section class="pt-100 pb-100 mb-5 mt-5">
+<section class="pt-100 pb-100 mb-5 mt-5">
     <div class="d-flex justify-content-center align-items-center" style="height: calc(100vh - 200px);">
         <div class="card shadow-lg p-4"
             style="max-width: 800px; width: 100%; height: 500px; display: flex; justify-content: center; align-items: center;">
@@ -13,9 +13,9 @@
             </div>
         </div>
     </div>
-</section> --}}
+</section>
 
-<section class="pt-100 pb-100 mb-5 mt-5">
+{{-- <section class="pt-100 pb-100 mb-5 mt-5">
     <div class="d-flex justify-content-center">
         <div class="card shadow-lg p-4" style="max-width: 800px; width: 100%;">
             <form action="{{ route('scholarship.apply') }}" method="POST">
@@ -145,4 +145,4 @@
             }
         });
     });
-</script>
+</script> --}}
