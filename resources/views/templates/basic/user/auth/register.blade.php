@@ -8,7 +8,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            /* height: 100vh; */
         }
 
         .title-header {
@@ -65,7 +65,8 @@
             border: none;
             font-size: 16px;
             cursor: pointer;
-            width: 129px;
+            width: 100%;
+            display: block;
             background: linear-gradient(6.43deg, #00E8DB -18.08%, #095450 121.1%);
             box-shadow: 0px 4px 55px 0px #0000001F;
             color: white;
@@ -128,7 +129,7 @@
     </style>
 @endpush
 @section('content')
-    <div class="container-fluid  px-md-4 pb-5 d-flex justify-content-center align-items-center vh-100 "
+    <div class="container-fluid  px-md-4 px-4 py-5 d-flex justify-content-center align-items-center overflow-y-scroll"
         style="background: url('{{ asset('assets/admin/images/1.jpg') }}');">
         <div class="row d-flex justify-content-center align-items-center">
             <div class="col-lg-6 col-xl-6 col-sm-12 card"
@@ -140,8 +141,8 @@
                     </a>
                 </div>
                 <h1 class="title-header mb-4 ">Create an Account</h1>
-                <form id="registerForm" class="row g-4 register-form" action="{{ route('user.register') }}" method="POST"
-                    onsubmit="return validateForm();">
+                <form id="registerForm" class="row g-4 register-form p-1 p-md-2" action="{{ route('user.register') }}"
+                    method="POST" onsubmit="return validateForm();">
                     @csrf
                     <div class="col-md-6">
                         <label for="firstName" class="form-label">First Name</label>
@@ -246,9 +247,6 @@
                     <span>Already have an Account? </span>
                     <a href="{{ route('user.login') }}" class="login-link  ">Login</a>
                 </div>
-                {{-- <div class="text-center mt-3 mb-5">
-                        <button class="btn btn-financial-aid">@lang('Financial Aid')</button>
-                    </div> --}}
             </div>
         </div>
     </div>
