@@ -7,7 +7,7 @@
         <div class="card shadow-lg p-4"
             style="max-width: 800px; width: 100%; height: 500px; display: flex; justify-content: center; align-items: center;">
             <h1 class="text-center mt-2">Applications Closed</h1>
-            <p class="mt-4 text-center">New Applications will commerce on May 21st 2025!</p>
+            <p class="mt-4 text-center">New Applications will commerce soon!</p>
             <div class="d-flex justify-content-center align-items-center">
                 <a href="/" class="btn btn-register">Back to Homepage</a>
             </div>
